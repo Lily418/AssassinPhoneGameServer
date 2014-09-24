@@ -39,4 +39,4 @@ def voice():
 if __name__ == '__main__':
     threading.Thread(target=socket_handler).start()
     print("I'm still going")
-    app.run()
+    app.run(host='0.0.0.0')
