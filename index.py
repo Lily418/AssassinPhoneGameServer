@@ -20,7 +20,7 @@ def accept_and_send(serversocket):
     try:
         (clientsocket, address) = serversocket.accept()
         while True:
-            try
+            try:
                 item = messages.get(True, 2)
                 d = send_data(clientsocket, str(item).encode('ascii'))
             except queue.Empty:
