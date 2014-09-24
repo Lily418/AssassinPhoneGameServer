@@ -9,10 +9,15 @@ messages = queue.Queue()
 def socket_handler():
     serversocket = socket.socket(
     socket.AF_INET, socket.SOCK_STREAM)
-    serversocket.bind(('', 3500))
-    serversocket.listen(5)
-    #accept connections from outside
-    accept_and_send(serversocket)
+    print('BIND')
+    try:
+        serversocket.bind(('', 3500))
+        serversocket.listen(5)
+        #accept connections from outside
+        accept_and_send(serversocket)
+    except OSError:
+        print("Already bound")
+
 
 
 
@@ -56,6 +61,6 @@ def status():
     return "";
 
 if __name__ == '__main__':
+    #print("I'm still going")
     threading.Thread(target=socket_handler).start()
-    print("I'm still going")
-    app.run(host='0.0.0.0', debug=True)
+    app.run(host='0.0.0.0', debug=True, port=3000)
