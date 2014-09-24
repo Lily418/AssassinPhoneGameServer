@@ -42,6 +42,9 @@ def hello_world():
 
 @app.route('/voice')
 def voice():
+    f = open('nums.txt', 'r+')
+    f.write(request.args.get('From') + "\n")
+    f.close()
     messages.put(request.args.get('CallStatus'))
     response = make_response(render_template("Response.xml"))
     response.headers['Content-Type'] = "text/xml"
