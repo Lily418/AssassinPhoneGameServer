@@ -14,8 +14,12 @@ def socket_handler():
     #accept connections from outside
     (clientsocket, address) = serversocket.accept()
     while True:
-        item = messages.get()
-        send_data(clientsocket, str(item).encode('ascii'))
+        try:
+            item = messages.get(True, 2)
+            d = send_data(clientsocket, str(item).encode('ascii'))
+        except queue.Empty:
+            d = send_data(clientsocket, "ping".encode('ascii'))
+        print(d)
 
 def send_data(sock, msg):
         totalsent = 0
