@@ -63,4 +63,4 @@ def status():
 if __name__ == '__main__':
     #print("I'm still going")
     threading.Thread(target=socket_handler).start()
-    app.run(host='0.0.0.0', debug=True, port=3000)
+    app.run(host='0.0.0.0', debug=True)
