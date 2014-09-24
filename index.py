@@ -38,7 +38,7 @@ def voice():
 
 @app.route('/status')
 def status():
-    messages.put(request.args.get('CallSid'))
+    messages.put(request.args.get('CallStatus'))
     return "";
 
 if __name__ == '__main__':
