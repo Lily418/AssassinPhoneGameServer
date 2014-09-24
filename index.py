@@ -31,10 +31,15 @@ def hello_world():
 
 @app.route('/voice')
 def voice():
-    messages.put(request.args.get('CallSid'))
+    #messages.put(request.args.get('CallSid'))
     response = make_response(render_template("Response.xml"))
     response.headers['Content-Type'] = "text/xml"
     return response
+
+@app.route('status')
+def status():
+    messages.put(request.args.get('CallSid'))
+    return "";
 
 if __name__ == '__main__':
     threading.Thread(target=socket_handler).start()
