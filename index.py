@@ -36,7 +36,7 @@ def voice():
     response.headers['Content-Type'] = "text/xml"
     return response
 
-@app.route('status')
+@app.route('/status')
 def status():
     messages.put(request.args.get('CallSid'))
     return "";
