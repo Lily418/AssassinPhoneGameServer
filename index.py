@@ -12,14 +12,21 @@ def socket_handler():
     serversocket.bind(('', 3500))
     serversocket.listen(5)
     #accept connections from outside
-    (clientsocket, address) = serversocket.accept()
-    while True:
-        try:
-            item = messages.get(True, 2)
-            d = send_data(clientsocket, str(item).encode('ascii'))
-        except queue.Empty:
-            d = send_data(clientsocket, "ping".encode('ascii'))
-        print(d)
+    accept_and_send(serversocket)
+
+
+
+def accept_and_send(serversocket):
+    try:
+        (clientsocket, address) = serversocket.accept()
+        while True:
+            try
+                item = messages.get(True, 2)
+                d = send_data(clientsocket, str(item).encode('ascii'))
+            except queue.Empty:
+                d = send_data(clientsocket, "ping".encode('ascii'))
+    except BrokenPipeError:
+        accept_and_send(serversocket);
 
 def send_data(sock, msg):
         totalsent = 0
