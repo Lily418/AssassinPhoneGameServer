@@ -6,17 +6,19 @@ app = Flask(__name__)
 
 messages = queue.Queue()
 
+@app.route('/thread')
+def start_thread():
+    threading.Thread(target=socket_handler).start()
+    return "Thread Started"
+
 def socket_handler():
     serversocket = socket.socket(
     socket.AF_INET, socket.SOCK_STREAM)
     print('BIND')
-    try:
-        serversocket.bind(('', 3500))
-        serversocket.listen(5)
-        #accept connections from outside
-        accept_and_send(serversocket)
-    except OSError:
-        print("Already bound")
+    serversocket.bind(('', 3500))
+    serversocket.listen(5)
+    #accept connections from outside
+    accept_and_send(serversocket)
 
 
 
@@ -27,8 +29,10 @@ def accept_and_send(serversocket):
         while True:
             try:
                 item = messages.get(True, 2)
+                print(str(item).encode('ascii'))
                 d = send_data(clientsocket, str(item).encode('ascii'))
             except queue.Empty:
+                print("ping")
                 d = send_data(clientsocket, "ping".encode('ascii'))
     except BrokenPipeError:
         accept_and_send(serversocket);
@@ -62,5 +66,4 @@ def status():
 
 if __name__ == '__main__':
     #print("I'm still going")
-    threading.Thread(target=socket_handler).start()
     app.run(host='0.0.0.0', debug=True)
